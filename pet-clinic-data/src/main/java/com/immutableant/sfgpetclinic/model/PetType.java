@@ -1,6 +1,6 @@
 package com.immutableant.sfgpetclinic.model;
 
-public class PetType {
+public class PetType extends BaseEntity {
 
   String name;
 
