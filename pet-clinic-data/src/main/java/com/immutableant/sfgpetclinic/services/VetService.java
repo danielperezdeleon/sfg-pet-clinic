@@ -2,7 +2,9 @@ package com.immutableant.sfgpetclinic.services;
 
 import com.immutableant.sfgpetclinic.model.Vet;
 
+import java.util.Optional;
+
 public interface VetService extends CrudService<Vet, Long> {
 
-  Vet findByLastName(String lastName);
+  Optional<Vet> findByLastName(String lastName);
 }

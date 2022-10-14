@@ -1,11 +1,12 @@
 package com.immutableant.sfgpetclinic.services.map;
 
 import com.immutableant.sfgpetclinic.model.Vet;
-import com.immutableant.sfgpetclinic.services.CrudService;
+import com.immutableant.sfgpetclinic.services.VetService;
 
+import java.util.Optional;
 import java.util.Set;
 
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements CrudService<Vet, Long> {
+public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
   @Override
   public Set<Vet> findAll() {
     return super.findAll();
@@ -29,5 +30,10 @@ public class VetServiceMap extends AbstractMapService<Vet, Long> implements Crud
   @Override
   public Vet findById(Long id) {
     return super.findById(id);
+  }
+
+  @Override
+  public Optional<Vet> findByLastName(String lastName) {
+    return super.findAll().stream().filter(vet -> vet.getLastName() == lastName).findFirst();
   }
 }

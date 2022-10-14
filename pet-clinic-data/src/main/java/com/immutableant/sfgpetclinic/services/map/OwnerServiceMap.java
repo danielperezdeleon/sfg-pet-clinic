@@ -1,12 +1,12 @@
 package com.immutableant.sfgpetclinic.services.map;
 
 import com.immutableant.sfgpetclinic.model.Owner;
-import com.immutableant.sfgpetclinic.services.CrudService;
+import com.immutableant.sfgpetclinic.services.OwnerService;
 
+import java.util.Optional;
 import java.util.Set;
 
-public class OwnerServiceMap extends AbstractMapService<Owner, Long>
-    implements CrudService<Owner, Long> {
+public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
   @Override
   public Set<Owner> findAll() {
     return super.findAll();
@@ -30,5 +30,10 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long>
   @Override
   public Owner findById(Long id) {
     return super.findById(id);
+  }
+
+  @Override
+  public Optional<Owner> findByLastName(String lastName) {
+    return super.findAll().stream().filter(owner -> owner.getLastName() == lastName).findFirst();
   }
 }
