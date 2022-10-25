@@ -6,7 +6,6 @@ import com.immutableant.sfgpetclinic.services.SpecialtiesService;
 import com.immutableant.sfgpetclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -54,7 +53,10 @@ public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetS
   }
 
   @Override
-  public Optional<Vet> findByLastName(String lastName) {
-    return super.findAll().stream().filter(vet -> vet.getLastName() == lastName).findFirst();
+  public Vet findByLastName(String lastName) {
+    return super.findAll().stream()
+        .filter(vet -> vet.getLastName() == lastName)
+        .findFirst()
+        .orElse(null);
   }
 }

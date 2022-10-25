@@ -7,7 +7,6 @@ import com.immutableant.sfgpetclinic.services.PetService;
 import com.immutableant.sfgpetclinic.services.PetTypeService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -68,7 +67,10 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
   }
 
   @Override
-  public Optional<Owner> findByLastName(String lastName) {
-    return super.findAll().stream().filter(owner -> owner.getLastName() == lastName).findFirst();
+  public Owner findByLastName(String lastName) {
+    return super.findAll().stream()
+        .filter(owner -> owner.getLastName() == lastName)
+        .findFirst()
+        .orElse(null);
   }
 }
