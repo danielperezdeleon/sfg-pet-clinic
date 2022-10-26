@@ -1,9 +1,20 @@
 package com.immutableant.sfgpetclinic.model;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
+@ToString
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {
@@ -18,37 +29,19 @@ public class Owner extends Person {
   private String telephone;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+  @ToString.Exclude
   private Set<Pet> pets = new HashSet<>();
 
-  public Set<Pet> getPets() {
-    return pets;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Owner owner = (Owner) o;
+    return getId() != null && Objects.equals(getId(), owner.getId());
   }
 
-  public void setPets(Set<Pet> pets) {
-    this.pets = pets;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  public String getTelephone() {
-    return telephone;
-  }
-
-  public void setTelephone(String telephone) {
-    this.telephone = telephone;
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
   }
 }

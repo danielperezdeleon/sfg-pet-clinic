@@ -13,7 +13,7 @@ import java.util.Set;
 @Profile({"default", "map"})
 public class VetMapService extends AbstractMapService<Vet, Long> implements VetService {
 
-  private SpecialtiesService specialtiesService;
+  private final SpecialtiesService specialtiesService;
 
   public VetMapService(SpecialtiesService specialtiesService) {
     this.specialtiesService = specialtiesService;
@@ -57,7 +57,7 @@ public class VetMapService extends AbstractMapService<Vet, Long> implements VetS
   @Override
   public Vet findByLastName(String lastName) {
     return super.findAll().stream()
-        .filter(vet -> vet.getLastName() == lastName)
+        .filter(vet -> vet.getLastName().equals(lastName))
         .findFirst()
         .orElse(null);
   }

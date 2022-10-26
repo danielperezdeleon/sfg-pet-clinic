@@ -1,8 +1,19 @@
 package com.immutableant.sfgpetclinic.model;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
+@Getter
+@Setter
+@ToString
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "visits")
 public class Visit extends BaseEntity {
@@ -16,27 +27,16 @@ public class Visit extends BaseEntity {
   @JoinColumn(name = "pet_id")
   private Pet pet;
 
-  public LocalDate getDate() {
-    return date;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Visit visit = (Visit) o;
+    return getId() != null && Objects.equals(getId(), visit.getId());
   }
 
-  public void setDate(LocalDate date) {
-    this.date = date;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Pet getPet() {
-    return pet;
-  }
-
-  public void setPet(Pet pet) {
-    this.pet = pet;
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
   }
 }

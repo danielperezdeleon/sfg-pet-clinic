@@ -48,6 +48,16 @@ public class DataLoader implements CommandLineRunner {
     Owner owner2 = new Owner();
     Vet vet1 = new Vet();
     Vet vet2 = new Vet();
+    Owner builtOwner =
+        Owner.builder()
+            .firstName("test1")
+            .lastName("test2")
+            .address("123 test")
+            .city("austin")
+            .telephone("9102313213")
+            .build();
+
+    ownerService.save(builtOwner);
 
     Specialty radiology = new Specialty();
     Specialty surgery = new Specialty();

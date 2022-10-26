@@ -1,10 +1,21 @@
 package com.immutableant.sfgpetclinic.model;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
+@ToString
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "pets")
 public class Pet extends BaseEntity {
@@ -24,45 +35,19 @@ public class Pet extends BaseEntity {
   private Owner owner;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
+  @ToString.Exclude
   private Set<Visit> visits = new HashSet<>();
 
-  public LocalDate getBirthDate() {
-    return birthDate;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Pet pet = (Pet) o;
+    return getId() != null && Objects.equals(getId(), pet.getId());
   }
 
-  public void setBirthDate(LocalDate birthDate) {
-    this.birthDate = birthDate;
-  }
-
-  public PetType getPetType() {
-    return petType;
-  }
-
-  public void setPetType(PetType petType) {
-    this.petType = petType;
-  }
-
-  public Owner getOwner() {
-    return owner;
-  }
-
-  public void setOwner(Owner owner) {
-    this.owner = owner;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Set<Visit> getVisits() {
-    return visits;
-  }
-
-  public void setVisits(Set<Visit> visits) {
-    this.visits = visits;
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
   }
 }
