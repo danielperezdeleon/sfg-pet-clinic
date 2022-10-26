@@ -2,11 +2,13 @@ package com.immutableant.sfgpetclinic.services.map;
 
 import com.immutableant.sfgpetclinic.model.Specialty;
 import com.immutableant.sfgpetclinic.services.SpecialtiesService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@Profile({"default", "map"})
 public class SpecialtiesMapService extends AbstractMapService<Specialty, Long>
     implements SpecialtiesService {
   @Override
