@@ -1,10 +1,7 @@
 package com.immutableant.sfgpetclinic.bootstrap;
 
 import com.immutableant.sfgpetclinic.model.*;
-import com.immutableant.sfgpetclinic.services.OwnerService;
-import com.immutableant.sfgpetclinic.services.PetTypeService;
-import com.immutableant.sfgpetclinic.services.SpecialtiesService;
-import com.immutableant.sfgpetclinic.services.VetService;
+import com.immutableant.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,15 +18,19 @@ public class DataLoader implements CommandLineRunner {
 
   private final SpecialtiesService specialtiesService;
 
+  private final VisitService visitService;
+
   public DataLoader(
       OwnerService ownerService,
       VetService vetService,
       PetTypeService petTypeService,
-      SpecialtiesService specialtiesService) {
+      SpecialtiesService specialtiesService,
+      VisitService visitService) {
     this.ownerService = ownerService;
     this.vetService = vetService;
     this.petTypeService = petTypeService;
     this.specialtiesService = specialtiesService;
+    this.visitService = visitService;
   }
 
   @Override
@@ -97,6 +98,14 @@ public class DataLoader implements CommandLineRunner {
     owner2.getPets().add(fionaPet);
 
     ownerService.save(owner2);
+    System.out.println("Loaded Visit....");
+
+    Visit fionaPetVisit = new Visit();
+    fionaPetVisit.setPet(fionaPet);
+    fionaPetVisit.setDescription("Visit 1");
+    fionaPetVisit.setDate(LocalDate.now());
+
+    visitService.save(fionaPetVisit);
 
     System.out.println("Loaded Owners....");
 
