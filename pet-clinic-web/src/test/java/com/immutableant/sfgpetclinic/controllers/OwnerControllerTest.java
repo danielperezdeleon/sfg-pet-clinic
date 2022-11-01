@@ -11,7 +11,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.hasProperty;
@@ -33,9 +35,9 @@ class OwnerControllerTest {
 
   @BeforeEach
   void setUp() {
-    owners.add(Owner.builder().id(1L).build());
-    owners.add(Owner.builder().id(2L).build());
-    owners.add(Owner.builder().id(3L).build());
+    owners.add(Owner.builder().id(1L).lastName("abc").build());
+    owners.add(Owner.builder().id(2L).lastName("def").build());
+    owners.add(Owner.builder().id(3L).lastName("ghi").build());
 
     mockMvc = MockMvcBuilders.standaloneSetup(ownerController).build();
   }
@@ -57,7 +59,8 @@ class OwnerControllerTest {
     mockMvc
         .perform(get("/owners/find"))
         .andExpect(status().is(200))
-        .andExpect(view().name("notimplemented"));
+        .andExpect(view().name("owners/findOwners"))
+        .andExpect((model().attributeExists("owner")));
   }
 
   @Test
@@ -68,5 +71,39 @@ class OwnerControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("owners/ownerDetails"))
         .andExpect(model().attribute("owner", hasProperty("id", is(1L))));
+  }
+
+  @Test
+  void processFindFormReturnMany() throws Exception {
+    List<Owner> ownerList = new ArrayList<>();
+    ownerList.add(Owner.builder().id(1L).lastName("abc").build());
+    ownerList.add(Owner.builder().id(2L).lastName("abcd").build());
+    when(ownerService.findByLastName("abc")).thenReturn(ownerList);
+    mockMvc
+        .perform(get("/owners/findOwners").param("lastName", "abc"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("owners/ownersList"))
+        .andExpect(model().attribute("selections", ownerList));
+  }
+
+  @Test
+  void processFindFormReturnOne() throws Exception {
+    List<Owner> ownerList = new ArrayList<>();
+    ownerList.add(Owner.builder().id(1L).lastName("abc").build());
+    when(ownerService.findByLastName("abc")).thenReturn(ownerList);
+    mockMvc
+        .perform(get("/owners/findOwners").param("lastName", "abc"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/owners/" + 1L));
+  }
+
+  @Test
+  void processFindFormReturnNone() throws Exception {
+    List<Owner> ownerList = new ArrayList<>();
+    when(ownerService.findByLastName("abc")).thenReturn(ownerList);
+    mockMvc
+        .perform(get("/owners/findOwners").param("lastName", "abc"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("owners/findOwners"));
   }
 }

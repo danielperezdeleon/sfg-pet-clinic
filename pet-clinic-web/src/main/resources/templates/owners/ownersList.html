@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="owner : ${listOwners}">
+    <tr th:each="owner : ${selections}">
         <td>
             <a th:href="@{/owners/__${owner.id}__}" th:text="${owner.firstName + ' ' + owner.lastName}"/></a>
         </td>
@@ -28,36 +28,7 @@
     </tr>
     </tbody>
 </table>
-<div th:if="${totalPages > 1}">
-    <span>Pages:</span>
-    <span>[</span>
-    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:href="@{'/owners?page=' + ${i}}" th:if="${currentPage != i}">[[${i}]]</a>
-      <span th:unless="${currentPage != i}">[[${i}]]</span>
-    </span>
-    <span>]&nbsp;</span>
-    <span>
-      <a class="fa fa-fast-backward" th:href="@{'/owners?page=1'}" th:if="${currentPage > 1}"
-         title="First"></a>
-      <span class="fa fa-fast-backward" th:unless="${currentPage > 1}" title="First"></span>
-    </span>
-    <span>
-      <a class="fa fa-step-backward" th:href="@{'/owners?page=__${currentPage - 1}__'}" th:if="${currentPage > 1}"
-         title="Previous"></a>
-      <span class="fa fa-step-backward" th:unless="${currentPage > 1}" title="Previous"></span>
-    </span>
-    <span>
-      <a class="fa fa-step-forward" th:href="@{'/owners?page=__${currentPage + 1}__'}"
-         th:if="${currentPage < totalPages}"
-         title="Next"></a>
-      <span class="fa fa-step-forward" th:unless="${currentPage < totalPages}" title="Next"></span>
-    </span>
-    <span>
-      <a class="fa fa-fast-forward" th:href="@{'/owners?page=__${totalPages}__'}" th:if="${currentPage < totalPages}"
-         title="Last"></a>
-      <span class="fa fa-step-forward" th:unless="${currentPage < totalPages}" title="Last"></span>
-    </span>
-</div>
+
 </body>
 </html>
 

@@ -10,12 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -94,15 +91,17 @@ class OwnerSDJpaServiceTest {
   @Test
   void findByLastName() {
     Owner owner = Owner.builder().id(ownerId).lastName(lastName).build();
-    when(ownerRepository.findByLastName(lastName)).thenReturn(owner);
-    Owner foundOwner = ownerSDJpaService.findByLastName(lastName);
-    assertEquals(foundOwner.getLastName(), owner.getLastName());
+    List<Owner> owners = new ArrayList<>();
+    owners.add(owner);
+    when(ownerRepository.findAllByLastNameContainingIgnoreCase(lastName)).thenReturn(owners);
+    List<Owner> foundOwners = ownerSDJpaService.findByLastName(lastName);
+    assertTrue(foundOwners.contains(owner));
   }
 
   @Test
   void findByLastNameNotFound() {
-    when(ownerRepository.findByLastName(lastName)).thenReturn(null);
-    Owner foundOwner = ownerSDJpaService.findByLastName(lastName);
-    assertNull(foundOwner);
+    when(ownerRepository.findAllByLastNameContainingIgnoreCase(lastName)).thenReturn(null);
+    List<Owner> foundOwners = ownerSDJpaService.findByLastName(lastName);
+    assertNull(foundOwners);
   }
 }

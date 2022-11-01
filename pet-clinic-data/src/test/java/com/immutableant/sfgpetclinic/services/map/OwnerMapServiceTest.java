@@ -4,6 +4,7 @@ import com.immutableant.sfgpetclinic.model.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,14 +65,14 @@ class OwnerMapServiceTest {
 
   @Test
   void findByLastName() {
-    Owner owner = ownerMapService.findByLastName(lastName);
-    assertNotNull(owner);
-    assertEquals(lastName, owner.getLastName());
+    List<Owner> owners = ownerMapService.findByLastName(lastName);
+    assertNotNull(owners);
+    assertEquals(owners.size(), 1);
   }
 
   @Test
   void findByLastNameNotFound() {
-    Owner owner = ownerMapService.findByLastName("lastName");
-    assertNull(owner);
+    List<Owner> owner = ownerMapService.findByLastName("lastName");
+    assertTrue(owner.isEmpty());
   }
 }

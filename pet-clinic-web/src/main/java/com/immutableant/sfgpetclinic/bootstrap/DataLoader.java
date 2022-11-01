@@ -51,6 +51,15 @@ public class DataLoader implements CommandLineRunner {
     Owner builtOwner =
         Owner.builder()
             .firstName("test1")
+            .lastName("test1")
+            .address("123 test")
+            .city("austin")
+            .telephone("9102313213")
+            .build();
+
+    Owner builtOwner2 =
+        Owner.builder()
+            .firstName("test2")
             .lastName("test2")
             .address("123 test")
             .city("austin")
@@ -58,6 +67,7 @@ public class DataLoader implements CommandLineRunner {
             .build();
 
     ownerService.save(builtOwner);
+    ownerService.save(builtOwner2);
 
     Specialty radiology = new Specialty();
     Specialty surgery = new Specialty();
