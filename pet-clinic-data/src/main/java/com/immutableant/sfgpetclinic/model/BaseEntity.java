@@ -24,6 +24,10 @@ public class BaseEntity implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  public boolean isNew() {
+    return this.id == null;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

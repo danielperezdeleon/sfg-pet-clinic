@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,5 +48,10 @@ public class Pet extends BaseEntity {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "name='" + name + '\'' + ", birthDate=" + birthDate + ", petType=" + petType;
   }
 }
