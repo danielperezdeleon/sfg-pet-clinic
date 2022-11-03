@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class Pet extends BaseEntity {
 
   @Column(name = "name")
+  @NotBlank
   private String name;
 
   @Column(name = "birth_date")

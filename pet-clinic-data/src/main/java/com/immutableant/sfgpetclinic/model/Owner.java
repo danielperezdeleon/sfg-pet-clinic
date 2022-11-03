@@ -30,7 +30,25 @@ public class Owner extends Person {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
   @ToString.Exclude
-  private Set<Pet> pets = new HashSet<>();
+  private final Set<Pet> pets = new HashSet<>();
+
+  public Pet getPet(Long id) {
+    for (Pet pet : getPets()) {
+      if (!pet.isNew()) {
+        Long compId = pet.getId();
+        if (compId.equals(id)) {
+          return pet;
+        }
+      }
+    }
+    return null;
+  }
+
+  public void addPet(Pet pet) {
+    if (pet.isNew()) {
+      getPets().add(pet);
+    }
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -43,5 +61,19 @@ public class Owner extends Person {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  public Pet getPet(String name, boolean ignoreNew) {
+    name = name.toLowerCase();
+    for (Pet pet : getPets()) {
+      if (!ignoreNew || !pet.isNew()) {
+        String compName = pet.getName();
+        compName = compName == null ? "" : compName.toLowerCase();
+        if (compName.equals(name)) {
+          return pet;
+        }
+      }
+    }
+    return null;
   }
 }

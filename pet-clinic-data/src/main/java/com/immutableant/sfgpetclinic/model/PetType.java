@@ -1,6 +1,9 @@
 package com.immutableant.sfgpetclinic.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
@@ -11,7 +14,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,11 @@ public class PetType extends BaseEntity {
 
   @Column(name = "name")
   String name;
+
+  @Override
+  public String toString() {
+    return name;
+  }
 
   @Override
   public boolean equals(Object o) {
