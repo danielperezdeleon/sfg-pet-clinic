@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -21,6 +22,7 @@ public class Visit extends BaseEntity {
   private LocalDate date;
 
   @Column(name = "description")
+  @NotBlank
   private String description;
 
   @ManyToOne
